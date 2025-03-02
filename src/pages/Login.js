@@ -12,9 +12,13 @@ const Login = () => {
         `${import.meta.env.VITE_API_BASE_URL}/login`,
         { email, password }
       );
-      localStorage.setItem("token", response.data.token);
-      alert("Login Successful!");
+
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.token);
+        alert("Login Successful!");
+      }
     } catch (error) {
+      console.error(error);
       alert("Invalid credentials!");
     }
   };
@@ -29,11 +33,11 @@ const Login = () => {
               <form onSubmit={handleLogin}>
                 <div className="mb-3">
                   <label className="form-label">Email</label>
-                  <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} />
+                  <input type="email" className="form-control" onChange={(e) => setEmail(e.target.value)} required />
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Password</label>
-                  <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} />
+                  <input type="password" className="form-control" onChange={(e) => setPassword(e.target.value)} required />
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
               </form>
